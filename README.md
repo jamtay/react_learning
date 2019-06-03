@@ -19,3 +19,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.<br>
 The app is ready to be deployed!
+
+## Tutorial progress
+
+**Upto here:** https://reactjs.org/tutorial/tutorial.html#adding-time-travel
