@@ -46,7 +46,11 @@ class Game extends React.Component {
     super(props);
     this.state = {
       history: [{
-        squares: Array(9).fill(null)
+        squares: Array(9).fill(null),
+        moveMade: {
+          row: '',
+          col: ''
+        }
       }],
       stepNumber: 0,
       xIsNext: true
@@ -62,11 +66,14 @@ class Game extends React.Component {
       return;
     }
 
+    const moveMade = calcMoveMade(i)
+
     squares[i] = whoIsNext(this.state.xIsNext);
     //Concat is similar to push but it does not mutate the original array
     this.setState({
       history: history.concat([{
-        squares: squares
+        squares: squares,
+        moveMade: moveMade
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext
@@ -86,8 +93,10 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
+      console.log(step)
+      console.log(move)
       const description = move ?
-          'Go ot move #' + move :
+          getMoveDesc(move, step) :
           'Go to game start';
       return (
           <li key={move}>
@@ -119,7 +128,22 @@ class Game extends React.Component {
   }
 }
 
-const whoIsNext = xIsNext =>{
+const getMoveDesc = (move, step) => {
+  return 'Go to move #' + move + ' MoveMade (col, row): ( '
+      + step.moveMade.col + ', ' + step.moveMade.row + ')'
+};
+
+const calcMoveMade = movePosition => {
+  const col = (movePosition % 3) + 1;
+  const row = Math.round((movePosition+1)/3)
+
+  return {
+    row: row,
+    col: col
+  }
+};
+
+const whoIsNext = xIsNext => {
   return xIsNext ? 'X' : 'O'
 };
 
